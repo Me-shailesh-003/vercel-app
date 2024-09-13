@@ -3,7 +3,6 @@ const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Enable CORS
 app.use(cors());
@@ -11,7 +10,8 @@ app.use(cors());
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware for parsing JSON bodies
+// Middleware for parsing URL-encoded and JSON bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // In-memory storage for shayari (for demonstration purposes)
@@ -39,7 +39,4 @@ app.get('/api/shayari', (req, res) => {
   res.json(shayariList);
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// No need for app.listen() as Vercel handles this part
